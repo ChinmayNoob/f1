@@ -4,11 +4,11 @@ import (
 	"github.com/google/uuid"
 )
 
-type Podium struct {
-	FirstPositionDriverID  uuid.UUID `json:"first_position_driver_id"`
-	SecondPositionDriverID uuid.UUID `json:"second_position_driver_id"`
-	ThirdPositionDriverID  uuid.UUID `json:"third_position_driver_id"`
-}
+// type Podium struct {
+// 	FirstPositionDriverName  string `json:"first_position_driver_name"`
+// 	SecondPositionDriverName string `json:"second_position_driver_name"`
+// 	ThirdPositionDriverName  string `json:"third_position_driver_name"`
+// }
 
 type Circuit struct {
 	ID       uuid.UUID `json:"id"`
@@ -18,5 +18,4 @@ type Circuit struct {
 	Country  string    `json:"country"`
 	Current  bool      `json:"current"`
 	URL      string    `json:"url"`
-	Podiums  Podium    `json:"podiums"`
 }

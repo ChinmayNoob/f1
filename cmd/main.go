@@ -25,6 +25,10 @@ func main() {
 	driverService := service.NewDriverService(driverRepo)
 	driverHandler := handler.NewDriverHandler(ctx, driverService)
 
+	circuitRepo := repository.NewCircuitRepository()
+	circuitService := service.NewCircuitService(circuitRepo)
+	circuitHandler := handler.NewCircuitHandler(ctx, circuitService)
+
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/constructors", func(w http.ResponseWriter, r *http.Request) {
@@ -70,6 +74,30 @@ func main() {
 			driverHandler.UpdateDriver(w, r)
 		case http.MethodDelete:
 			driverHandler.DeleteDriver(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/circuits", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			circuitHandler.GetCircuit(w, r)
+		case http.MethodPost:
+			circuitHandler.CreateCircuit(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/circuits/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			circuitHandler.GetCircuitByID(w, r)
+		case http.MethodPut:
+			circuitHandler.UpdateCircuit(w, r)
+		case http.MethodDelete:
+			circuitHandler.DeleteCircuit(w, r)
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
