@@ -11,6 +11,10 @@ func SetupRoutes(
 	constructorHandler *handler.ConstructorHandler,
 	driverHandler *handler.DriverHandler,
 	circuitHandler *handler.CircuitHandler,
+	seasonHandler *handler.SeasonHandler,
+	raceHandler *handler.RaceHandler,
+	resultHandler *handler.ResultHandler,
+	standingHandler *handler.StandingHandler,
 ) {
 	mux.HandleFunc("/constructors", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
@@ -79,6 +83,126 @@ func SetupRoutes(
 			circuitHandler.UpdateCircuit(w, r)
 		case http.MethodDelete:
 			circuitHandler.DeleteCircuit(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/seasons", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			seasonHandler.GetSeason(w, r)
+		case http.MethodPost:
+			seasonHandler.CreateSeason(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/seasons/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			seasonHandler.GetSeasonByID(w, r)
+		case http.MethodPut:
+			seasonHandler.UpdateSeason(w, r)
+		case http.MethodDelete:
+			seasonHandler.DeleteSeason(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/races", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			raceHandler.GetRace(w, r)
+		case http.MethodPost:
+			raceHandler.CreateRace(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/races/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			raceHandler.GetRaceByID(w, r)
+		case http.MethodPut:
+			raceHandler.UpdateRace(w, r)
+		case http.MethodDelete:
+			raceHandler.DeleteRace(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/results", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			resultHandler.GetResult(w, r)
+		case http.MethodPost:
+			resultHandler.CreateResult(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/results/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			resultHandler.GetResultByID(w, r)
+		case http.MethodPut:
+			resultHandler.UpdateResult(w, r)
+		case http.MethodDelete:
+			resultHandler.DeleteResult(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/driver-standings", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			standingHandler.GetDriverStanding(w, r)
+		case http.MethodPost:
+			standingHandler.CreateDriverStanding(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/driver-standings/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			standingHandler.GetDriverStandingByID(w, r)
+		case http.MethodPut:
+			standingHandler.UpdateDriverStanding(w, r)
+		case http.MethodDelete:
+			standingHandler.DeleteDriverStanding(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/constructor-standings", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			standingHandler.GetConstructorStanding(w, r)
+		case http.MethodPost:
+			standingHandler.CreateConstructorStanding(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/constructor-standings/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			standingHandler.GetConstructorStandingByID(w, r)
+		case http.MethodPut:
+			standingHandler.UpdateConstructorStanding(w, r)
+		case http.MethodDelete:
+			standingHandler.DeleteConstructorStanding(w, r)
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}

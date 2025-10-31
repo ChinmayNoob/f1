@@ -30,9 +30,25 @@ func main() {
 	circuitService := service.NewCircuitService(circuitRepo)
 	circuitHandler := handler.NewCircuitHandler(ctx, circuitService)
 
+	seasonRepo := repository.NewSeasonRepository()
+	seasonService := service.NewSeasonService(seasonRepo)
+	seasonHandler := handler.NewSeasonHandler(ctx, seasonService)
+
+	raceRepo := repository.NewRaceRepository()
+	raceService := service.NewRaceService(raceRepo)
+	raceHandler := handler.NewRaceHandler(ctx, raceService)
+
+	resultRepo := repository.NewResultRepository()
+	resultService := service.NewResultService(resultRepo)
+	resultHandler := handler.NewResultHandler(ctx, resultService)
+
+	standingRepo := repository.NewStandingRepository()
+	standingService := service.NewStandingService(standingRepo)
+	standingHandler := handler.NewStandingHandler(ctx, standingService)
+
 	mux := http.NewServeMux()
 
-	router.SetupRoutes(mux, constructorHandler, driverHandler, circuitHandler)
+	router.SetupRoutes(mux, constructorHandler, driverHandler, circuitHandler, seasonHandler, raceHandler, resultHandler, standingHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
