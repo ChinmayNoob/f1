@@ -17,11 +17,13 @@ func main() {
 	db.InitDB(ctx)
 	defer db.Conn.Close(ctx)
 
-	// The repository now uses a global db.Conn,
-	// so we don't need to pass it in.
 	constructorRepo := repository.NewConstructorRepository()
 	constructorService := service.NewConstructorService(constructorRepo)
 	constructorHandler := handler.NewConstructorHandler(ctx, constructorService)
+
+	driverRepo := repository.NewDriverRepository()
+	driverService := service.NewDriverService(driverRepo)
+	driverHandler := handler.NewDriverHandler(ctx, driverService)
 
 	mux := http.NewServeMux()
 
@@ -44,6 +46,30 @@ func main() {
 			constructorHandler.UpdateConstructor(w, r)
 		case http.MethodDelete:
 			constructorHandler.DeleteConstructor(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/drivers", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			driverHandler.GetDriver(w, r)
+		case http.MethodPost:
+			driverHandler.CreateDriver(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/drivers/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			driverHandler.GetDriverByID(w, r)
+		case http.MethodPut:
+			driverHandler.UpdateDriver(w, r)
+		case http.MethodDelete:
+			driverHandler.DeleteDriver(w, r)
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
